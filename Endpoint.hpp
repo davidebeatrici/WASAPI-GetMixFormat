@@ -46,7 +46,7 @@ public:
 	std::string getID() const;
 	std::string getName() const;
 	Flow getFlow() const;
-	Format getFormat(std::optional< category_t > category) const;
+	std::optional< Format > getFormat(std::optional< category_t > category) const;
 
 private:
 	IMMDevice *m_handle = nullptr;

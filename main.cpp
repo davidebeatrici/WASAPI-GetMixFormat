@@ -34,19 +34,22 @@ static void printEndpointInfo(const Endpoint &endpoint, const std::optional< cat
 	printf("Flow: %s\n", endpoint.flowText(endpoint.getFlow()));
 
 	const auto format = endpoint.getFormat(category);
+	if (!format) {
+		return;
+	}
 
 	printf("Format:\n");
-	printf("\tTag:                   %x\n", format.tag);
-	printf("\tChannels:              %hu\n", format.channels);
-	printf("\tSamples per sec:       %u\n", format.samplesPerSec);
-	printf("\tAvg bytes per sec:     %u\n", format.avgBytesPerSec);
-	printf("\tBlock align:           %hu\n", format.blockAlign);
+	printf("\tTag:                   %x\n", (*format).tag);
+	printf("\tChannels:              %hu\n", (*format).channels);
+	printf("\tSamples per sec:       %u\n", (*format).samplesPerSec);
+	printf("\tAvg bytes per sec:     %u\n", (*format).avgBytesPerSec);
+	printf("\tBlock align:           %hu\n", (*format).blockAlign);
 
-	if (format.bitsPerSample) {
-		printf("\tBits per sample:       %hu\n", format.bitsPerSample);
-		printf("\tValid bits per sample: %hu\n", format.validBitsPerSample);
+	if ((*format).bitsPerSample) {
+		printf("\tBits per sample:       %hu\n", (*format).bitsPerSample);
+		printf("\tValid bits per sample: %hu\n", (*format).validBitsPerSample);
 	} else {
-		printf("\tSamples per block:     %hu\n", format.samplesPerBlock);
+		printf("\tSamples per block:     %hu\n", (*format).samplesPerBlock);
 	}
 }
 

@@ -94,7 +94,7 @@ Flow Endpoint::getFlow() const {
 	return None;
 }
 
-Format Endpoint::getFormat(const std::optional< category_t > category) const {
+std::optional< Format > Endpoint::getFormat(const std::optional< category_t > category) const {
 	IAudioClient3 *client;
 	HRESULT res =
 		m_handle->Activate(__uuidof(IAudioClient3), CLSCTX_ALL, nullptr, reinterpret_cast< void ** >(&client));
