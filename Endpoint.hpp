@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 
 struct IMMDevice;
@@ -7,6 +8,8 @@ struct IMMDevice;
 class Endpoint {
 public:
 	enum Flow : std::uint8_t { None, Input, Output, Both };
+
+	using category_t = std::uint8_t;
 
 	struct Format {
 		std::uint16_t tag;
@@ -43,7 +46,7 @@ public:
 	std::string getID() const;
 	std::string getName() const;
 	Flow getFlow() const;
-	Format getFormat() const;
+	Format getFormat(std::optional< category_t > category) const;
 
 private:
 	IMMDevice *m_handle = nullptr;

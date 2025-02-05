@@ -94,13 +94,25 @@ Flow Endpoint::getFlow() const {
 	return None;
 }
 
-Format Endpoint::getFormat() const {
+Format Endpoint::getFormat(const std::optional< category_t > category) const {
 	IAudioClient3 *client;
 	HRESULT res =
 		m_handle->Activate(__uuidof(IAudioClient3), CLSCTX_ALL, nullptr, reinterpret_cast< void ** >(&client));
 	if (res != S_OK) {
 		printf("IMMDevice::Activate() failed with error %x!\n", res);
 		return {};
+	}
+
+	if (category) {
+		AudioClientProperties props{};
+		props.cbSize    = sizeof(props);
+		props.eCategory = static_cast< AUDIO_STREAM_CATEGORY >(*category);
+
+		res = client->SetClientProperties(&props);
+		if (res != S_OK) {
+			printf("IAudioClient::SetClientProperties() failed with error %x!\n", res);
+			return {};
+		}
 	}
 
 	WAVEFORMATEX *fmt;
